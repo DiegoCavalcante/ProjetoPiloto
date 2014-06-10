@@ -1,9 +1,7 @@
 package com.example.projetopiloto;
 
-import com.example.projetopiloto.LoginUser.PlaceholderFragment;
-import com.les.atividade.Atividade;
 import com.les.atividade.Usuario;
-
+import bancodados.BD;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,23 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.Toast;
 import android.os.Build;
 
-public class MainActivity extends ActionBarActivity {
-	
-	private Usuario usuario;	
-	private ArrayAdapter<String> adapter;
-	private static final int CONSTANTE_TELA_1 = 1;
-	
+public class LoginUser extends ActionBarActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
-		
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);	
+		setContentView(R.layout.activity_login_user);
+
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -39,13 +31,9 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+
 		// Inflate the menu; this adds items to the action bar if it is present.
-						
-		ListView lista = (ListView) findViewById(R.id.lv);		
-		lista.setAdapter(adapter);
-		
-		
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.login_user, menu);
 		return true;
 	}
 
@@ -72,28 +60,26 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main, container,
-					false);
+			View rootView = inflater.inflate(R.layout.fragment_login_user,
+					container, false);
 			return rootView;
 		}
 	}
 	
-	public void descricaoAtividade(View view){
-		Intent intent = new  Intent(this, DisplayTi.class);
-		startActivityForResult(intent, CONSTANTE_TELA_1);
+	public void logar(View view){
+		Intent intent = new Intent(this, MainActivity.class);
+		
+		EditText email = (EditText)findViewById(R.id.email_user);
+		BD bd = new BD(this);		
+		
+		Usuario usuario = bd.buscar(email.getText().toString());
+		if(usuario.getEmail()!= null){
+			startActivity(intent);
+			finish();
+		}	
+		else		
+			Toast.makeText(this, "Usuario não cadastrado", Toast.LENGTH_SHORT).show();
+		//lembra de fazer o put do usuario 
 	}
-	
-	protected void onActivityResult(int codigoTela, int resultado, Intent intent){
-		if(codigoTela == CONSTANTE_TELA_1){
-			Bundle params = intent.getExtras();
-			if(params != null){
-				String nome = params.getString("nome");
-				adapter.add(nome);
-			}
-		}
-	}
-	
-	
-	
-	
+
 }

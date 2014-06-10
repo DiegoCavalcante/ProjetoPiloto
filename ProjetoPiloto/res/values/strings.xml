@@ -9,5 +9,13 @@
     <string name="nome_atividade">Atividade</string>
     <string name="ti">Tempo Investido</string>
     <string name="cria_atividade">Confirmar</string>
+    <string name="title_activity_login">Login</string>
+    <string name="criar_conta">Criar conta</string>
+    <string name="title_activity_cria_usuario">CriaUsuario</string>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <string name="criar">Confirmar</string>
+    <string name="title_activity_login_user">LoginUser</string>
+    <string name="logar">Logar</string>
 
 </resources>

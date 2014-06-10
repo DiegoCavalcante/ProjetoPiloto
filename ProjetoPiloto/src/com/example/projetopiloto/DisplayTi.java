@@ -3,12 +3,17 @@ package com.example.projetopiloto;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 import android.os.Build;
 
 public class DisplayTi extends ActionBarActivity {
@@ -17,7 +22,7 @@ public class DisplayTi extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_ti);
-
+		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -62,7 +67,17 @@ public class DisplayTi extends ActionBarActivity {
 	}
 	
 	public void adicionaAtividade(View view){
-		//salvar os dados da atividade
+		EditText nome = (EditText)findViewById(R.id.nome_atividade);
+		EditText tempo = (EditText)findViewById(R.id.ti);	
+		
+		Intent intent = new Intent();
+		intent.putExtra("nome", nome.getText().toString());		
+		setResult(1,intent);
+		
+		if(nome.getText().toString().length() > 0 ){
+			Toast.makeText(this, "Atividade registrada com sucesso", Toast.LENGTH_SHORT).show();			
+		}
+		finish();		
 	}
 
 }
