@@ -17,7 +17,7 @@ import android.widget.Toast;
 import android.os.Build;
 
 public class LoginUser extends ActionBarActivity {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -72,8 +72,9 @@ public class LoginUser extends ActionBarActivity {
 		EditText email = (EditText)findViewById(R.id.email_user);
 		BD bd = new BD(this);		
 		
-		Usuario usuario = bd.buscar(email.getText().toString());
-		if(usuario.getEmail()!= null){
+		Usuario usuario = bd.buscar( email.getText().toString());
+		if(usuario.getEmail()!= null){			
+			intent.putExtra("email", usuario.getEmail());			
 			startActivity(intent);
 			finish();
 		}	

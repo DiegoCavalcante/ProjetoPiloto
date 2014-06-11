@@ -3,9 +3,9 @@ package com.les.atividade;
 public class Atividade {
 	
 	private String nome;
-	private int tempo;
+	private String tempo;
 
-	public Atividade(String nome, int tempo){
+	public Atividade(String nome, String tempo){
 		this.nome = nome;
 		this.tempo = tempo;
 	}
@@ -19,10 +19,10 @@ public class Atividade {
 	}
 
 	public int getTempo() {
-		return tempo;
+		return Integer.parseInt(tempo);
 	}
 
-	public void setTempo(int tempo) {
+	public void setTempo(String tempo) {
 		this.tempo = tempo;
 	}
 	

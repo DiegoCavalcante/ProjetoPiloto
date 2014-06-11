@@ -1,5 +1,10 @@
 package com.example.projetopiloto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import bancodados.BD;
+
 import com.example.projetopiloto.LoginUser.PlaceholderFragment;
 import com.les.atividade.Atividade;
 import com.les.atividade.Usuario;
@@ -24,13 +29,22 @@ public class MainActivity extends ActionBarActivity {
 	private Usuario usuario;	
 	private ArrayAdapter<String> adapter;
 	private static final int CONSTANTE_TELA_1 = 1;
-	
+	private List<String> list; 
+	private BD bd;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);		
+		setContentView(R.layout.activity_main);			
+		bd = new BD(this);
 		
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);	
+		// puxar o usuario do BD
+		Intent intent = getIntent();
+		usuario = bd.buscar(intent.getExtras().getString("email"));		
+		
+		list = new ArrayList<String>();
+		list.add("tempo");
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -80,15 +94,17 @@ public class MainActivity extends ActionBarActivity {
 	
 	public void descricaoAtividade(View view){
 		Intent intent = new  Intent(this, DisplayTi.class);
+		intent.putExtra("email", usuario.getEmail());
 		startActivityForResult(intent, CONSTANTE_TELA_1);
 	}
-	
+	//verificar uma melhor forma de voltar os resultados
 	protected void onActivityResult(int codigoTela, int resultado, Intent intent){
 		if(codigoTela == CONSTANTE_TELA_1){
 			Bundle params = intent.getExtras();
 			if(params != null){
 				String nome = params.getString("nome");
 				adapter.add(nome);
+				//usuario = bd.buscar(params.getString("email"));				
 			}
 		}
 	}

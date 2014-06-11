@@ -1,5 +1,9 @@
 package com.example.projetopiloto;
 
+import bancodados.BD;
+
+import com.les.atividade.Usuario;
+
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,12 +21,18 @@ import android.widget.Toast;
 import android.os.Build;
 
 public class DisplayTi extends ActionBarActivity {
-
+	private Usuario usuario;
+	private BD bd;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_display_ti);
+		Intent intent = getIntent();
+		bd = new BD(this);
+		usuario = bd.buscar(intent.getExtras().getString("email"));
 		
+		//usuario = Usuario.getInstancia();
+		//System.out.println(usuario.getNome());
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
@@ -68,11 +78,15 @@ public class DisplayTi extends ActionBarActivity {
 	
 	public void adicionaAtividade(View view){
 		EditText nome = (EditText)findViewById(R.id.nome_atividade);
-		EditText tempo = (EditText)findViewById(R.id.ti);	
+		EditText tempo = (EditText)findViewById(R.id.ti);
+		
+		usuario.addAtividade(nome.getText().toString(), tempo.getText().toString());
 		
 		Intent intent = new Intent();
-		intent.putExtra("nome", nome.getText().toString());		
+		intent.putExtra("nome", nome.getText().toString());	
+		intent.putExtra("email", usuario.getEmail());
 		setResult(1,intent);
+		bd.atualizar(usuario);
 		
 		if(nome.getText().toString().length() > 0 ){
 			Toast.makeText(this, "Atividade registrada com sucesso", Toast.LENGTH_SHORT).show();			
