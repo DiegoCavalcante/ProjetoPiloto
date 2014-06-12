@@ -42,8 +42,8 @@ public class MainActivity extends ActionBarActivity {
 		usuario = bd.buscar(intent.getExtras().getString("email"));		
 		
 		list = new ArrayList<String>();
-		list.add("tempo");
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+		//list.add(usuario.getSemana().getAtividades().toString());//upar lista do usuario	
+		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,usuario.getSemana().paraArray());
 		
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
 		lista.setAdapter(adapter);
 		
 		
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
 
@@ -69,6 +69,12 @@ public class MainActivity extends ActionBarActivity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
+		switch(id){
+		case R.id.action_settings:
+			return true;
+		case R.id.item1:
+			historico();
+		}
 		if (id == R.id.action_settings) {
 			return true;
 		}
@@ -99,17 +105,20 @@ public class MainActivity extends ActionBarActivity {
 	}
 	//verificar uma melhor forma de voltar os resultados
 	protected void onActivityResult(int codigoTela, int resultado, Intent intent){
-		if(codigoTela == CONSTANTE_TELA_1){
+		if(codigoTela == CONSTANTE_TELA_1){			
 			Bundle params = intent.getExtras();
 			if(params != null){
 				String nome = params.getString("nome");
-				adapter.add(nome);
+				//adapter.add(nome);
 				//usuario = bd.buscar(params.getString("email"));				
 			}
 		}
+		
 	}
-	
-	
-	
+	public void historico(){
+		Intent intent = new Intent(this, DisplaySemana.class);
+		intent.putExtra("email", usuario.getEmail());
+		startActivity(intent);		
+	}
 	
 }

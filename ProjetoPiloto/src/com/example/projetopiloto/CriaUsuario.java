@@ -22,7 +22,7 @@ import android.os.Build;
 public class CriaUsuario extends ActionBarActivity {
 	private EditText nome;
 	private EditText email;
-	private Usuario usuario = new Usuario();
+	private Usuario usuario ;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,21 +80,19 @@ public class CriaUsuario extends ActionBarActivity {
 		nome = (EditText) findViewById(R.id.nome_usuario);
 		email = (EditText) findViewById(R.id.email);
 		boolean insert;
-		
-		usuario.setNome(nome.getText().toString());
-		usuario.setEmail(email.getText().toString());
+		usuario = new Usuario(nome.getText().toString(),email.getText().toString());
 		
 		BD bd = new BD(this);
 		insert = bd.inserir(usuario);		
+		
 		if(insert){
 			Toast.makeText(this, "Usuario criado com sucesso", Toast.LENGTH_SHORT).show();
 			finish();
 		}else{
 			Toast.makeText(this, "Usuario existente", Toast.LENGTH_SHORT).show();
-		}
-		
-		
+		}	
 		
 	}
+	
 
 }

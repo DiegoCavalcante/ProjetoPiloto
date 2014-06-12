@@ -17,5 +17,11 @@
     <string name="criar">Confirmar</string>
     <string name="title_activity_login_user">LoginUser</string>
     <string name="logar">Logar</string>
-
+    <string name="historico">Historico</string>
+    <string name="title_activity_display_semana">DisplaySemana</string>
+    <string name="atividade_nome">Nome Atividade</string>
+    <string name="atividade_tempo">Tempo</string>
+	<string name="atividade_prop">Proporcao</string>
+	<string name="recente">Recente</string>
+    
 </resources>

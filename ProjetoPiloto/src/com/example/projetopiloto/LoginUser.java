@@ -72,15 +72,21 @@ public class LoginUser extends ActionBarActivity {
 		EditText email = (EditText)findViewById(R.id.email_user);
 		BD bd = new BD(this);		
 		
-		Usuario usuario = bd.buscar( email.getText().toString());
-		if(usuario.getEmail()!= null){			
-			intent.putExtra("email", usuario.getEmail());			
-			startActivity(intent);
-			finish();
-		}	
-		else		
-			Toast.makeText(this, "Usuario não cadastrado", Toast.LENGTH_SHORT).show();
-		//lembra de fazer o put do usuario 
+		Usuario usuario = bd.buscar(email.getText().toString());
+		
+		if(email.getText().toString().length() > 0){
+			if(usuario != null){			
+				intent.putExtra("email", usuario.getEmail());
+				
+				startActivity(intent);
+				finish();
+			}	
+			else		
+				Toast.makeText(this, "Usuario não cadastrado", Toast.LENGTH_SHORT).show();
+			//lembra de fazer o put do usuario 
+		}
+		else
+			Toast.makeText(this, "Email inválido", Toast.LENGTH_SHORT).show();
 	}
 
 }

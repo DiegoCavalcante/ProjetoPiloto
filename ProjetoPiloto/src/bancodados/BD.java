@@ -54,7 +54,7 @@ public class BD {
 	}
 	
 	public Usuario buscar(String email){
-		
+		//Usuario usuario = new Usuario();
 		String [] colunas = new String[]{"_id","nome","email"};
 		Cursor cursor = bd.query("usuario", colunas,  "email = ?",new String[]{email} , null, null, null);	
 		

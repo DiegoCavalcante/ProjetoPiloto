@@ -38,6 +38,10 @@
             android:name="com.example.projetopiloto.LoginUser"
             android:label="@string/title_activity_login_user" >
         </activity>
+        <activity
+            android:name="com.example.projetopiloto.DisplaySemana"
+            android:label="@string/title_activity_display_semana" >
+        </activity>
     </application>
 
 </manifest>

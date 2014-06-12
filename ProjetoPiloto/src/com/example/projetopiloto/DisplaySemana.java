@@ -1,9 +1,6 @@
 package com.example.projetopiloto;
 
-import bancodados.BD;
-
-import com.les.atividade.Atividade;
-import com.les.atividade.Usuario;
+import java.util.ArrayList;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -15,36 +12,47 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.os.Build;
+import bancodados.BD;
 
-public class DisplayTi extends ActionBarActivity {
+import com.les.atividade.Atividade;
+import com.les.atividade.Usuario;
+
+public class DisplaySemana extends ActionBarActivity {
 	private Usuario usuario;
-	private BD bd;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_display_ti);
+		setContentView(R.layout.fragment_display_semana);
 		Intent intent = getIntent();
-		bd = new BD(this);
-		usuario = bd.buscar(intent.getExtras().getString("email"));
+		if(intent!=null){
+			Bundle bundle = intent.getExtras();
+			if(bundle!=null){
+				BD bd = new BD(this);
+				usuario = bd.buscar(bundle.getString("email"));
+				ListView lv = (ListView) findViewById(R.id.listView1);
+				if(usuario.getSemana().getAtividades().size()>0){
+					lv.setAdapter(new AtividadeAdapter(this,usuario.getSemana().getRank()));
+				}								
+				
+				//ArrayList<Atividade> atividades = new ArrayList<Atividade>();
+				
+			}
+			
+		}
 		
-		//usuario = Usuario.getInstancia();
-		//System.out.println(usuario.getNome());
-		if (savedInstanceState == null) {
+		/*if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
+		}*/
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
+		
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.display_ti, menu);
+		getMenuInflater().inflate(R.menu.display_semana, menu);
 		return true;
 	}
 
@@ -71,30 +79,10 @@ public class DisplayTi extends ActionBarActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_display_ti,
+			View rootView = inflater.inflate(R.layout.fragment_display_semana,
 					container, false);
 			return rootView;
 		}
 	}
-	
-	public void adicionaAtividade(View view){
-		EditText nomeAtividade = (EditText)findViewById(R.id.nome_atividade);
-		EditText tempo = (EditText)findViewById(R.id.ti);	
-		
-		Atividade atividade = new Atividade(nomeAtividade.getText().toString(),Integer.parseInt(tempo.getText().toString()));
-		
-		Intent intent = new Intent();
-		intent.putExtra("nome", nomeAtividade.getText().toString());	
-		usuario.getSemana().adicionaAtividade(atividade);
-		setResult(1,intent);
-		bd.atualizar(usuario);
-		System.out.println(usuario.getSemana().totalAtividades());
-		if(nomeAtividade.getText().toString().length() > 0 ){
-			Toast.makeText(this, "Atividade registrada com sucesso", Toast.LENGTH_SHORT).show();			
-		}
-		finish();		
-	}
-	
-	
 
 }

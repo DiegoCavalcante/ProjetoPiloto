@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
+	
 	private long id;
 	private String nome;
-	private String email;
-	private List<Atividade> atividades= new ArrayList<Atividade>();	
+	private String email;	
+	private Semana[] semanas ;
 	
-	private static Usuario instancia = null;
-	
-	public static Usuario getInstancia(){
-		if(instancia == null){
-			instancia = new Usuario();
-		}
-		return instancia;
+	public Usuario(String nome, String email){
+		this.nome = nome;
+		this.email = email;
+		
+		inicializar();
 	}
-	
 	
 	public String getNome() {
 		return nome;
@@ -35,9 +33,7 @@ public class Usuario {
 		this.email = email;
 	}
 	
-	public List<Atividade> getAtividades(){
-		return atividades;
-	}
+	
 	
 	public long getId(){
 		return id;
@@ -47,9 +43,15 @@ public class Usuario {
 		this.id = novoId;
 	}
 
-	public void addAtividade(String string, String i) {
-		Atividade atividade =  new Atividade(string, i);
-		atividades.add(atividade);		
+	
+	public void inicializar(){
+		this.semanas = new Semana[1];
+		this.semanas[0] = new Semana();
+	}
+	
+	
+	public Semana getSemana(){
+		return semanas[0];
 	}
 	
 }
